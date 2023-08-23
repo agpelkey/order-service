@@ -15,27 +15,27 @@ var (
 )
 
 type Entree struct {
-	ID int `json:"id"`
-	Name string `json:"name"`
+	ID          int `json:"id"`
+	Name        string `json:"name"`
 	Description string `json:"description"`
-	Cost int `json:"cost"`
-	Quantity int `json:"quantity"`
+	Cost        int `json:"cost"`
+	Quantity    int `json:"quantity"`
 }
 
 // model to create a new entree
 type EntreeCreate struct {
-	Name string `json:"name"`
+	Name        string `json:"name"`
 	Description string `json:"description"`
-	Cost int `json:"cost"`
-	Quantity int `json:"quantity"`
+	Cost        int `json:"cost"`
+	Quantity    int `json:"quantity"`
 }
 
 // model to update entree
 type EntreeUpdate struct {
-	Name *string `json:"name"`
+	Name        *string `json:"name"`
 	Description *string `json:"description"`
-	Cost *int `json:"cost"`
-	Quantity *int `json:"quantity"`
+	Cost        *int `json:"cost"`
+	Quantity    *int `json:"quantity"`
 }
 
 // repository pattern for entree's

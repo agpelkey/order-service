@@ -13,19 +13,19 @@ var (
 
 // Cart type
 type Cart struct {
-	ID int `json:"id"`
+	ID       int `json:"id"`
 	EntreeID int `json:"entree_id"`
-	UserID int `json:"user_id"`
+	UserID   int `json:"user_id"`
 	Quantity int `json:"quantity"`
 }
 
 
 // type for creating new cart
 type CartCreate struct {
-	ID int `json:"id"`
-	EntreeID int `json:"entree_id"`
-	UserID int `json:"user_id"`
-	Quantity int `json:"quantity"`
+	ID          int `json:"id"`
+	EntreeID    int `json:"entree_id"`
+	UserID      int `json:"user_id"`
+	Quantity    int `json:"quantity"`
 }
 
 
