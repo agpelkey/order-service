@@ -4,8 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 
+	"github.com/agpelkey/order-service/domain"
+	"github.com/agpelkey/order-service/postgres"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -15,7 +18,10 @@ type config struct {
 }
 
 type application struct {
-    config config
+    config      config
+    UserStore   domain.CustomerService 
+    EntreeStore domain.EntreeService
+    CartStore domain.CartService
 }
 
 func main() {
@@ -37,6 +43,15 @@ func main() {
 
     app := &application{
         config: cfg,
+        UserStore: postgres.NewUserStore(dbpool),
+        EntreeStore: postgres.NewEntreeStore(dbpool),
+        CartStore: postgres.NewCartStore(dbpool),
+        
     }
     // start server
+    err = app.server()
+    if err != nil {
+        log.Fatal(err)
+    }
+    
 }
