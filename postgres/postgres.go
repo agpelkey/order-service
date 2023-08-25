@@ -2,9 +2,11 @@ package postgres
 
 import (
 	"context"
+	"errors"
 	"sync"
 	"time"
 
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -51,7 +53,15 @@ func (p *Postgres) Ping(ctx context.Context) error {
     return p.DB.Ping(ctx)
 }
 
+// pgError returns a postgres error type
+func pgError(err error) pgconn.PgError {
+    var pgErr *pgconn.PgError
+    if errors.As(err, &pgErr) {
+        return *pgErr
+    }
 
+    return pgconn.PgError{}
+}
 
 
 

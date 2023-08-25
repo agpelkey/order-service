@@ -35,11 +35,13 @@ func main() {
     flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
     flag.Parse()
 
-    dbpool, err := pgxpool.New(context.Background(), os.Getenv("FOOD_SERVICE_DSN"))
+    dbpool, err := pgxpool.New(context.Background(), os.Getenv("ORDER_SERVICE_DB"))
     if err != nil {
         fmt.Fprintf(os.Stderr, "Unable to create connection pool")
         os.Exit(1)
     }
+
+    fmt.Println("database connection established")
 
     defer dbpool.Close()
 

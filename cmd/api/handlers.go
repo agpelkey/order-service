@@ -18,3 +18,19 @@ func (app *application) handleHealthCheck(w http.ResponseWriter, r *http.Request
     }
 
 }
+
+func (app *application) handleCustomer(w http.ResponseWriter, r *http.Request) {
+    switch {
+    case r.Method == "GET":
+        // get customer handler 'return app.handleGetAllCustomers(w, r)'
+        // get customer by id
+    case r.Method == "POST":
+        // post customer handler 
+    case r.Method == "PATCH": 
+        // patch request
+    case r.Method == "DELETE":
+        // delete request
+    }
+}
+
+

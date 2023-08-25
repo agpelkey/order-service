@@ -6,6 +6,10 @@ import (
 )
 
 var (
+
+    ErrDuplicateCustomerEmail = errors.New("duplicated email")
+    ErrNoUsersFound = errors.New("no users to list")
+
 	errEmailRequired = errors.New("email is required")
 	errEmailTooLong = errors.New("email is too long")
 	errEmailInvalid = errors.New("email is invalid")
