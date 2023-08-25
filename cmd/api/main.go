@@ -12,6 +12,8 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+const version = "1.0.0"
+
 type config struct {
     port int
     env string
@@ -43,7 +45,7 @@ func main() {
 
     app := &application{
         config: cfg,
-        UserStore: postgres.NewUserStore(dbpool),
+        UserStore: postgres.NewCustomerStore(dbpool),
         EntreeStore: postgres.NewEntreeStore(dbpool),
         CartStore: postgres.NewCartStore(dbpool),
         
