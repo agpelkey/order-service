@@ -3,6 +3,8 @@ package domain
 import (
 	"errors"
 	"strings"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -41,7 +43,7 @@ type CustomerLogin struct {
 
 type CustomerService interface {
 	// put db method logic here
-	  // Create
+    CreateNewUser(user *Customer) error
 	  // GetByID
 	  // GetByEmail
 	  // Update
@@ -87,6 +89,16 @@ func (c CustomerCreate) CreateModel(password []byte) Customer {
 		Email: c.Email,
 		Passowrd: password,
 	}
+}
+
+// Generate a hashed password for the customer
+func GenerateHashedPassword(password []byte) ([]byte, error) {
+    return bcrypt.GenerateFromPassword(password, bcrypt.MinCost)
+}
+
+// Compare hashed and plain text passowrds
+func CompareHashAndPassword(hashedPassword []byte, password []byte) error {
+    return bcrypt.CompareHashAndPassword(hashedPassword, password)
 }
 
 

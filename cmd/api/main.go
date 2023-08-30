@@ -21,7 +21,7 @@ type config struct {
 
 type application struct {
     config      config
-    UserStore   domain.CustomerService 
+    CustomerStore   domain.CustomerService 
     EntreeStore domain.EntreeService
     CartStore domain.CartService
 }
@@ -47,7 +47,7 @@ func main() {
 
     app := &application{
         config: cfg,
-        UserStore: postgres.NewCustomerStore(dbpool),
+        CustomerStore: postgres.NewCustomerStore(dbpool),
         EntreeStore: postgres.NewEntreeStore(dbpool),
         CartStore: postgres.NewCartStore(dbpool),
         

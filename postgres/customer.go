@@ -22,12 +22,12 @@ func NewCustomerStore(db *pgxpool.Pool) customerStore {
 func (u customerStore) CreateNewUser(user *domain.Customer) error {
     query := `
         INSERT INTO customers (username, email, password)
-        VALUES ($1, $2, $3)
+        VALUES (@user_name, @email, @password)
         RETURNING id
     `
     
     args := pgx.NamedArgs{
-        "username": &user.Username,
+        "user_name": &user.Username,
         "email":    &user.Email,
         "password": &user.Passowrd,
     }

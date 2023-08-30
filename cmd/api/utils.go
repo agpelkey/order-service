@@ -12,7 +12,7 @@ type envelope map[string]interface{}
 // set const of 1M to be max size for http request
 const maxBytesBodyRead = 1_048_576
 // function to read JSON from client request
-func fromJSON(w http.ResponseWriter, r *http.Request, v any) error {
+func readJSON(w http.ResponseWriter, r *http.Request, v any) error {
     r.Body = http.MaxBytesReader(w, r.Body, maxBytesBodyRead)
 
     // decode the request into the 'v' variable
@@ -31,8 +31,10 @@ func fromJSON(w http.ResponseWriter, r *http.Request, v any) error {
 }
 
 // function to write json back to the client
-func writeJSON(w http.ResponseWriter, v any, status int) error {
+func writeJSON(w http.ResponseWriter, status int, data envelope, header http.Header) error {
     w.Header().Set("Content-Type", "application/json")
     w.WriteHeader(status)
-    return json.NewEncoder(w).Encode(v)
+    return json.NewEncoder(w).Encode(data)
 }
+
+
