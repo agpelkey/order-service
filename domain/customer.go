@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"context"
 	"errors"
 	"strings"
 
@@ -11,6 +12,7 @@ var (
 
     ErrDuplicateCustomerEmail = errors.New("duplicated email")
     ErrNoUsersFound = errors.New("no users to list")
+    ErrRecordNotFound = errors.New("record not found")
 
 	errEmailRequired = errors.New("email is required")
 	errEmailTooLong = errors.New("email is too long")
@@ -25,7 +27,7 @@ type Customer struct {
 	ID 	 int `json:"id"`
 	Username string `json:"user_name"`
 	Email 	 string `json:"email"`	
-	Passowrd []byte`json:"password"`
+	Password []byte`json:"password"`
 }
 
 // declare customer create 
@@ -44,10 +46,9 @@ type CustomerLogin struct {
 type CustomerService interface {
 	// put db method logic here
     CreateNewUser(user *Customer) error
-	  // GetByID
-	  // GetByEmail
-	  // Update
-	  // Delete
+    GetAllUsers(ctx context.Context) ([]Customer, error)
+    GetCustomerByID(ctx context.Context, id int64) (Customer, error)
+    DeleteCustomer(ctx context.Context, id int64) error
 }
 
 // Validate to validate POST requests 
@@ -87,7 +88,7 @@ func (c CustomerCreate) CreateModel(password []byte) Customer {
 	return Customer{
 		Username: c.Username,
 		Email: c.Email,
-		Passowrd: password,
+		Password: password,
 	}
 }
 
