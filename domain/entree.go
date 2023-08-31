@@ -6,6 +6,7 @@ var (
 
 	ErrDuplicateEntree = errors.New("duplicated product")
 	ErrNoEntreesFound = errors.New("products not found")
+    ErrNoRecordFound = errors.New("record not found")
 
 	errEntreeNameRequired = errors.New("name is required")
 	errEntreeDescriptionRequired = errors.New("description is required")
