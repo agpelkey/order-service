@@ -44,3 +44,8 @@ func (app *application) methodNotAllowed(w http.ResponseWriter, r *http.Request)
     message := fmt.Sprintf("the %s method is not allowed", r.Method) 
     app.errorResponse(w, r, http.StatusMethodNotAllowed, message)
 }
+
+// ErrorInvalidQuery uses Error to report invalid URL queries
+func (app *application) ErrorInvalidQuery(w http.ResponseWriter, r *http.Request) {
+    app.errorResponse(w, r, http.StatusBadRequest, "invalid url query")
+}

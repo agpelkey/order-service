@@ -41,6 +41,7 @@ type EntreeUpdate struct {
 
 // repository pattern for entree's
 type EntreeService interface {
+    CreateEntree(entree *Entree) error
 	// Create
 	// GetByID
 	// GetByName

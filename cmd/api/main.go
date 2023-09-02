@@ -15,15 +15,15 @@ import (
 const version = "1.0.0"
 
 type config struct {
-    port int
-    env string
+    port    int
+    env     string
 }
 
 type application struct {
-    config      config
+    config          config
     CustomerStore   domain.CustomerService 
-    EntreeStore domain.EntreeService
-    CartStore domain.CartService
+    EntreeStore     domain.EntreeService
+    CartStore       domain.CartService
 }
 
 func main() {

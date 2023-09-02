@@ -19,5 +19,8 @@ func (app *application) routes() http.Handler {
     router.HandlerFunc(http.MethodGet, "/v1/customers/:id", app.handleGetCustomerByID)
     router.HandlerFunc(http.MethodDelete, "/v1/customers/:id", app.handleDeleteCustomer)
 
+    // entree routes
+    router.HandlerFunc(http.MethodPost, "/v1/entrees", app.handleCreateEntree)
+
     return router
 }
