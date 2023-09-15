@@ -1,6 +1,9 @@
 package domain
 
-import "errors"
+import (
+	"context"
+	"errors"
+)
 
 var (
 
@@ -43,7 +46,7 @@ type EntreeUpdate struct {
 type EntreeService interface {
     CreateEntree(entree *Entree) error
 	// Create
-	// GetByID
+    GetEntreeByID(ctx context.Context, id int64) (Entree, error)
 	// GetByName
 	// Update
 	// Delete

@@ -11,7 +11,7 @@ func (app *application) routes() http.Handler {
     router := httprouter.New()
 
     // healtch check routes
-    router.HandlerFunc(http.MethodGet, "/v1/health", app.handleHealthCheck)
+    //router.HandlerFunc(http.MethodGet, "/v1/health", app.handleHealthCheck)
 
     // customer routes
     router.HandlerFunc(http.MethodPost, "/v1/customers", app.handleCreateCustomer)
@@ -21,6 +21,8 @@ func (app *application) routes() http.Handler {
 
     // entree routes
     router.HandlerFunc(http.MethodPost, "/v1/entrees", app.handleCreateEntree)
+    router.HandlerFunc(http.MethodGet, "/v1/entrees/:id", app.handleGetEntreeByID)
+
 
     return router
 }

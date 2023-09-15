@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -17,6 +18,23 @@ import (
 // @Failure    500
 // @Router     /entrees/id [get]
 func (app *application) handleGetEntreeByID(w http.ResponseWriter, r *http.Request) {
+    id, err := readIdParam(r)
+    if err != nil {
+        app.serverErrorResponse(w, r, err)
+        return
+    }
+
+    payload, err := app.EntreeStore.GetEntreeByID(r.Context(), id)
+    if err != nil {
+        switch {
+        case errors.Is(err, domain.ErrNoEntreesFound):
+            app.notFoundResponse(w, r)
+        default:
+            app.serverErrorResponse(w, r, err)
+        }
+    }
+
+    err = writeJSON(w, http.StatusOK, envelope{"entree":payload}, nil)
 
 }
 
