@@ -43,8 +43,8 @@ func (app *application) handleGetEntreeByID(w http.ResponseWriter, r *http.Reque
 // @Tags      Entrees
 // @Produce   JSON
 // @Accept    JSON
-// @Param     product   body   domain.CreateEntree true "Create entree"
-// @Success   201
+// @Param     entree  body   domain.CreateEntree true "Create entree"
+// @Success   200
 // @Failure   400
 // @Failure   500 
 // @Router    /entrees [post]
@@ -79,6 +79,71 @@ func (app *application) handleCreateEntree(w http.ResponseWriter, r *http.Reques
 
 // get all entrees
 
-// update entree
+// @Summary   Update entree
+// @Tags      Entrees
+// @Produce   JSON
+// @Accept    JSON
+// @Param     entree  body   domain.CreateEntree true "Create entree"
+// @Success   200
+// @Failure   404
+// @Failure   500 
+// @Router    /entrees/:id [patch]
+func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Request) {
+	id, err := readIdParam(r)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	input := domain.EntreeUpdate{}
+	err = readJSON(w, r, &input)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	err = input.Validate()
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+
+	entree, err := app.EntreeStore.UpdateEntreeByID(r.Context(), id, input)
+	if err != nil {
+		switch {
+		case errors.Is(err, domain.ErrNoEntreesFound):
+			app.notFoundResponse(w, r)
+			return
+		default:
+			app.serverErrorResponse(w, r, err)
+			return
+		}
+	}
+
+
+	err = writeJSON(w, http.StatusOK, envelope{"entree": entree}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+}
 
 // delete entree
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

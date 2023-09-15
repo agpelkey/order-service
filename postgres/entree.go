@@ -73,7 +73,7 @@ func (e entreeStore) GetEntreeByID(ctx context.Context, id int64) (domain.Entree
 }
 
 // Method to update entree
-func (e entreeStore) UpdateEntreeByID(ctx context.Context, id int64, input domain.Entree) (domain.Entree, error) {
+func (e entreeStore) UpdateEntreeByID(ctx context.Context, id int64, input domain.EntreeUpdate) (domain.Entree, error) {
 
     query := `
        UPDATE entrees 
@@ -97,6 +97,13 @@ func (e entreeStore) UpdateEntreeByID(ctx context.Context, id int64, input domai
         return domain.Entree{}, fmt.Errorf("failed to update produce: %v", err)
     }
 
+
+    product, err := pgx.CollectOneRow(row, pgx.RowToStructByName[domain.Entree])
+    if err != nil {
+	    return domain.Entree{}, fmt.Errorf("failed to scan rows of entrees: %v", err)
+    }
+
+    return product, nil
 
 }
 
