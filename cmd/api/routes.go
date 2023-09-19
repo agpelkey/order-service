@@ -23,6 +23,7 @@ func (app *application) routes() http.Handler {
     router.HandlerFunc(http.MethodPost, "/v1/entrees", app.handleCreateEntree)
     router.HandlerFunc(http.MethodGet, "/v1/entrees/:id", app.handleGetEntreeByID)
     router.HandlerFunc(http.MethodPatch, "/v1/entrees/:id", app.handleUpdateEntree)
+    router.HandlerFunc(http.MethodDelete, "/v1/entrees/:id", app.handleDeleteEntree)
 
 
     return router

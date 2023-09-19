@@ -49,7 +49,7 @@ type EntreeService interface {
     GetEntreeByID(ctx context.Context, id int64) (Entree, error)
 	// GetByName
     UpdateEntreeByID(ctx context.Context, id int64, input EntreeUpdate) error
-	// Delete
+	DeleteEntreeByID(ctx context.Context, id int64) error
 }
 
 // Used to validate POST requests

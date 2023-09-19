@@ -130,8 +130,36 @@ func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Reques
 
 }
 
-// delete entree
+// @Summary   Delete entree
+// @Tags      Entrees
+// @Produce   JSON
+// @Accept    JSON
+// @Param     id     path   int  true "Entree ID" 
+// @Success   200
+// @Failure   404
+// @Failure   500 
+// @Router    /entrees/:id [delete]
+func (app *application) handleDeleteEntree(w http.ResponseWriter, r *http.Request) {
+    id, err := readIdParam(r)
+    if err != nil {
+        app.serverErrorResponse(w, r, err)
+        return
+    }
 
+    err = app.EntreeStore.DeleteEntreeByID(r.Context(), id)
+    if err != nil {
+        if errors.Is(err, domain.ErrNoEntreesFound) {
+            app.notFoundResponse(w, r)
+            return
+        } else {
+            app.serverErrorResponse(w, r, err)
+            return
+        }
+    }
+
+    _ = writeJSON(w, http.StatusOK, envelope{"message": "entree deleted"}, nil)
+
+}
 
 
 

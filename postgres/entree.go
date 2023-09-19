@@ -103,6 +103,26 @@ func (e entreeStore) UpdateEntreeByID(ctx context.Context, id int64, input domai
 
 
 // Delete
+func (e entreeStore) DeleteEntreeByID(ctx context.Context, id int64) error {
+    query := `
+        DELETE FROM entrees WHERE id = @id
+    `
+
+    args := pgx.NamedArgs{
+        "id": id,
+    }
+
+    result, err := e.db.Exec(ctx, query, args)
+    if err != nil {
+        return fmt.Errorf("failed to delete entree: %v", err)
+    }
+
+    if rows := result.RowsAffected(); rows != 1 {
+        return domain.ErrNoEntreesFound
+    }
+
+    return nil
+}
 
 
 
