@@ -48,7 +48,7 @@ type EntreeService interface {
 	// Create
     GetEntreeByID(ctx context.Context, id int64) (Entree, error)
 	// GetByName
-    UpdateEntreeByID(ctx context.Context, id int64, input EntreeUpdate) (Entree, error)
+    UpdateEntreeByID(ctx context.Context, id int64, input EntreeUpdate) error
 	// Delete
 }
 

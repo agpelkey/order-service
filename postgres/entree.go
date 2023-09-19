@@ -73,15 +73,15 @@ func (e entreeStore) GetEntreeByID(ctx context.Context, id int64) (domain.Entree
 }
 
 // Method to update entree
-func (e entreeStore) UpdateEntreeByID(ctx context.Context, id int64, input domain.EntreeUpdate) (domain.Entree, error) {
+func (e entreeStore) UpdateEntreeByID(ctx context.Context, id int64, input domain.EntreeUpdate) error {
 
     query := `
        UPDATE entrees 
        SET name         = COALESCE(@name, name),
             description = COALESCE(@description, description),
             cost        = COALESCE(@cost, cost),
-            quantity    = COALESCE(@quantity, quantity),
-        WHERE id = @id RETURNING *
+            quantity    = COALESCE(@quantity, quantity)
+        WHERE id = @id 
         `
     
     args := pgx.NamedArgs{
@@ -89,22 +89,16 @@ func (e entreeStore) UpdateEntreeByID(ctx context.Context, id int64, input domai
         "description": &input.Description,
         "cost": &input.Cost,
         "quantity": &input.Quantity,
+        "id": &id,
     }
 
 
-    row, err := e.db.Query(ctx, query, args)
+    _, err := e.db.Query(ctx, query, args)
     if err != nil {
-        return domain.Entree{}, fmt.Errorf("failed to update produce: %v", err)
+        fmt.Errorf("failed to query update client: %v", err)
     }
 
-
-    product, err := pgx.CollectOneRow(row, pgx.RowToStructByName[domain.Entree])
-    if err != nil {
-	    return domain.Entree{}, fmt.Errorf("failed to scan rows of entrees: %v", err)
-    }
-
-    return product, nil
-
+    return nil
 }
 
 

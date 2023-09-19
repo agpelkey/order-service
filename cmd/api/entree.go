@@ -91,7 +91,7 @@ func (app *application) handleCreateEntree(w http.ResponseWriter, r *http.Reques
 func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Request) {
 	id, err := readIdParam(r)
 	if err != nil {
-		app.serverErrorResponse(w, r, err)
+		app.notFoundResponse(w, r)
 		return
 	}
 
@@ -109,7 +109,7 @@ func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Reques
 	}
 
 
-	entree, err := app.EntreeStore.UpdateEntreeByID(r.Context(), id, input)
+    err = app.EntreeStore.UpdateEntreeByID(r.Context(), id, input)
 	if err != nil {
 		switch {
 		case errors.Is(err, domain.ErrNoEntreesFound):
@@ -122,7 +122,7 @@ func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Reques
 	}
 
 
-	err = writeJSON(w, http.StatusOK, envelope{"entree": entree}, nil)
+	err = writeJSON(w, http.StatusOK, envelope{"entree": err}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
