@@ -25,6 +25,8 @@ func (app *application) routes() http.Handler {
     router.HandlerFunc(http.MethodPatch, "/v1/entrees/:id", app.handleUpdateEntree)
     router.HandlerFunc(http.MethodDelete, "/v1/entrees/:id", app.handleDeleteEntree)
 
+    // cart routes
+    router.HandlerFunc(http.MethodPost, "/v1/cart", app.handleCreateCart)
 
     return router
 }

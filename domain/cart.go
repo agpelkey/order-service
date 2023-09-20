@@ -1,33 +1,37 @@
 package domain
 
-import "errors"
+import (
+	"context"
+	"errors"
+
+)
 
 var (
-	ErrInvalidUserID = errors.New("invalid user id")	
-	ErrInvalidEntreeID = errors.New("invalid entree id")
-	ErrNoCartsFound = errors.New("no cart could be found")
+	ErrCartInvalidCustomerID = errors.New("invalid customer id")
+	ErrCartInvalidEntreeID   = errors.New("invalid entree id")
+	ErrNoCartsFound      = errors.New("no cart could be found")
 
-	errUserIDRequired = errors.New("user_id is required")
+	errUserIDRequired   = errors.New("customer_id is required")
 	errEntreeIDRequired = errors.New("entre_id is required")
+
+    
 )
 
 // Cart type
 type Cart struct {
 	ID       int `json:"id"`
 	EntreeID int `json:"entree_id"`
-	UserID   int `json:"user_id"`
+	CustomerID int `json:"customer_id"`
 	Quantity int `json:"quantity"`
 }
 
-
 // type for creating new cart
 type CartCreate struct {
-	ID          int `json:"id"`
-	EntreeID    int `json:"entree_id"`
-	UserID      int `json:"user_id"`
-	Quantity    int `json:"quantity"`
+	ID         int `json:"id"`
+	EntreeID   int `json:"entree_id"`
+	CustomerID int `json:"customer_id"`
+	Quantity   int `json:"quantity"`
 }
-
 
 // type for updating a cart
 type CartUpdate struct {
@@ -38,10 +42,10 @@ type CartUpdate struct {
 // CartService represents service for managing carts
 type CartService interface {
 	// Insert DB methods here
-		// Get
-		// Create
-		// Update
-		// Delete
+	// Get
+	CreateNewCart(ctx context.Context, input *Cart) error
+	// Update
+	// Delete
 }
 
 // Validate Post request to create cart
@@ -49,7 +53,7 @@ func (c CartCreate) Validate() error {
 	switch {
 	case c.EntreeID == 0:
 		return errEntreeIDRequired
-	case c.UserID == 0:
+	case c.CustomerID == 0:
 		return errUserIDRequired
 	case c.Quantity == 0:
 		return errQuantityRequired
@@ -61,8 +65,8 @@ func (c CartCreate) Validate() error {
 // reateModel sets input values and returns new struct
 func (c CartCreate) CreateModel() Cart {
 	return Cart{
-		EntreeID: c.EntreeID,		
-		UserID: c.UserID,
+		EntreeID: c.EntreeID,
+		CustomerID:   c.CustomerID,
 		Quantity: c.Quantity,
 	}
 }
@@ -89,22 +93,3 @@ func (c CartUpdate) UpdateModel(cart *Cart) {
 		cart.Quantity = *c.Quantity
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -8,15 +8,8 @@ import (
 	"github.com/agpelkey/order-service/domain"
 )
 
-// @Summary    Get product by ID
-// @Tags       Entrees
-// @Produce    JSON
-// @Param      id       path      int true "Entree ID"
-// @Success    200      {array}   envelope{"entree":entree}
-// @Failure    400
-// @Failure    404
-// @Failure    500
-// @Router     /entrees/id [get]
+// method to handle getting an entree by ID 
+// @Router /v1/entree/:id  [GET]
 func (app *application) handleGetEntreeByID(w http.ResponseWriter, r *http.Request) {
     id, err := readIdParam(r)
     if err != nil {
@@ -39,15 +32,8 @@ func (app *application) handleGetEntreeByID(w http.ResponseWriter, r *http.Reque
 }
 
 
-// @Summary   Create entree
-// @Tags      Entrees
-// @Produce   JSON
-// @Accept    JSON
-// @Param     entree  body   domain.CreateEntree true "Create entree"
-// @Success   200
-// @Failure   400
-// @Failure   500 
-// @Router    /entrees [post]
+// method to handle creating a new entree 
+// @Router /v1/entrees/  [POST]
 func (app *application) handleCreateEntree(w http.ResponseWriter, r *http.Request) {
     input := domain.EntreeCreate{}
 
@@ -79,15 +65,8 @@ func (app *application) handleCreateEntree(w http.ResponseWriter, r *http.Reques
 
 // get all entrees
 
-// @Summary   Update entree
-// @Tags      Entrees
-// @Produce   JSON
-// @Accept    JSON
-// @Param     entree  body   domain.CreateEntree true "Create entree"
-// @Success   200
-// @Failure   404
-// @Failure   500 
-// @Router    /entrees/:id [patch]
+// method to handle updating an entree 
+// @Router /v1/entrees/:id  [PATCH]
 func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Request) {
 	id, err := readIdParam(r)
 	if err != nil {
@@ -96,7 +75,7 @@ func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Reques
 	}
 
 	input := domain.EntreeUpdate{}
-	err = readJSON(w, r, &input)
+    err = readJSON(w, r, &input)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
@@ -107,7 +86,6 @@ func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Reques
 		app.serverErrorResponse(w, r, err)
 		return
 	}
-
 
     err = app.EntreeStore.UpdateEntreeByID(r.Context(), id, input)
 	if err != nil {
@@ -130,15 +108,9 @@ func (app *application) handleUpdateEntree(w http.ResponseWriter, r *http.Reques
 
 }
 
-// @Summary   Delete entree
-// @Tags      Entrees
-// @Produce   JSON
-// @Accept    JSON
-// @Param     id     path   int  true "Entree ID" 
-// @Success   200
-// @Failure   404
-// @Failure   500 
-// @Router    /entrees/:id [delete]
+
+// method to handle deleting an entree 
+// @Router /v1/entrees/:id  [DELETE]
 func (app *application) handleDeleteEntree(w http.ResponseWriter, r *http.Request) {
     id, err := readIdParam(r)
     if err != nil {
