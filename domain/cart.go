@@ -42,9 +42,9 @@ type CartUpdate struct {
 // CartService represents service for managing carts
 type CartService interface {
 	// Insert DB methods here
-	// Get
+	GetCartByID(ctx context.Context, id int64) (Cart, error)
 	CreateNewCart(ctx context.Context, input *Cart) error
-	// Update
+	UpdateCart(ctx context.Context, id int64, input CartUpdate) error
 	// Delete
 }
 
