@@ -98,6 +98,21 @@ func (app *application) handleUpdateCart(w http.ResponseWriter, r *http.Request)
 
 
 // handle delete cart
+func (app *application) handleDeleteCart(w http.ResponseWriter, r *http.Request) {
+    id, err := readIdParam(r)
+    if err != nil {
+        app.ErrorInvalidQuery(w, r)
+        return
+    }
+
+    cart := app.CartStore.DeleteCart(r.Context(), id)
+    if err != nil {
+        app.serverErrorResponse(w, r, err)
+        return
+    }
+
+    _ = writeJSON(w, http.StatusOK, envelope{"cart deleted": cart}, nil)
+}
 
 
 

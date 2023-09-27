@@ -105,3 +105,36 @@ func (c cartStore) UpdateCart(ctx context.Context, id int64, input domain.CartUp
 }
 
 // delete cart
+func (c cartStore) DeleteCart(ctx context.Context, id int64) error {
+    query := `
+       DELETE FROM carts WHERE id = @id 
+    `
+
+    payload, err := c.db.Exec(ctx, query, id)
+    if err != nil {
+        return fmt.Errorf("failed to delete cart: %v", err)
+    }
+
+    if rows := payload.RowsAffected(); rows != 1 {
+        return domain.ErrNoCartsFound
+    }
+
+    return nil
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

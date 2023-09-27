@@ -45,7 +45,7 @@ type CartService interface {
 	GetCartByID(ctx context.Context, id int64) (Cart, error)
 	CreateNewCart(ctx context.Context, input *Cart) error
 	UpdateCart(ctx context.Context, id int64, input CartUpdate) error
-	// Delete
+	DeleteCart(ctx context.Context, id int64) error
 }
 
 // Validate Post request to create cart
